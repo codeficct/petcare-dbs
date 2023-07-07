@@ -1,6 +1,7 @@
-import UserModel from '../models/user'
+import UserModel from '../models/user.js'
 
 export const login = async (req, res) => {
+  console.log('Hello from login')
   const isUser = await UserModel.findOne({ email: req.body.email })
   if (!isUser === null) {
     try {
