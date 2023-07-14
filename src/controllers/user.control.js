@@ -2,7 +2,6 @@ import UserModel from '../models/user.js'
 
 export const login = async (req, res) => {
   const isUser = await UserModel.findOne({ email: req.body.email })
-  console.log(isUser)
   if (!isUser) {
     try {
       // create new user
@@ -15,7 +14,7 @@ export const login = async (req, res) => {
     }
   } else {
     // login success
-    res.status(200).json({ message: 'user authenticated' })
+    res.status(200).json(isUser)
   }
 }
 
@@ -51,5 +50,14 @@ export const updateUser = async (req, res) => {
     }
   } catch (error) {
     res.sendStatus(406)
+  }
+}
+
+export const deleteUser = async (req, res) => {
+  try {
+    await UserModel.findByIdAndDelete(req.params.id)
+    res.sendStatus(404)
+  } catch (error) {
+    res.sendStatus(400)
   }
 }
