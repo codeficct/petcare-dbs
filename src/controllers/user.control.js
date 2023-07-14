@@ -19,8 +19,6 @@ export const login = async (req, res) => {
   }
 }
 
-// TODO: get user by id, get all users to test
-
 export const getUser = async (req, res) => {
   try {
     const user = await UserModel.findById(req.params.id)
