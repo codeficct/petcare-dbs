@@ -26,6 +26,10 @@ const petScheme = new Scheme({
   died: {
     type: Boolean,
     default: false
+  },
+  gender: {
+    type: String,
+    enum: ['macho', 'hembra']
   }
 }, { timestamps: true })
 
