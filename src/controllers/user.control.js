@@ -8,14 +8,14 @@ export const login = async (req, res) => {
       // create new user
       const newUser = new UserModel(req.body)
       await newUser.save()
-      res.status(201).json("User created")
+      res.status(201).json({ message: 'User created' })
     } catch (error) {
       console.error(error)
       res.sendStatus(406)
     }
   } else {
     // login success
-    res.status(200).json("authenticated")
+    res.status(200).json({ message: 'user authenticated' })
   }
 }
 
@@ -33,7 +33,23 @@ export const getUser = async (req, res) => {
 }
 
 export const getUsers = async (req, res) => {
-  console.log("from get users")
-    const users = await UserModel.find({});
-    res.json(users)
+  const users = await UserModel.find({})
+  res.json(users)
+}
+
+export const updateUser = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.params.id)
+    console.log(user)
+    if (user !== null) {
+      await UserModel.findByIdAndUpdate(req.params.id, {
+        name: req.body.name, photo: req.body.photo
+      }, { new: true })
+      res.status(201).json({ message: 'update user' })
+    } else {
+      res.status(204).json({ message: 'user not found' })
+    }
+  } catch (error) {
+    res.sendStatus(406)
+  }
 }
