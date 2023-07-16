@@ -13,7 +13,13 @@ const vaccineSchema = new Schema({
   },
   veterinary: {
     type: Schema.Types.ObjectId,
-    ref: 'Veterinary'
+    ref: 'User',
+    required: true
+  },
+  pet: {
+    type: Schema.Types.ObjectId,
+    ref: 'Pet',
+    required: true
   }
 }, { timestamps: true })
 
