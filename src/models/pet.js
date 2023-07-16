@@ -1,6 +1,6 @@
-import { Scheme, model } from 'mongoose'
+import { Schema, model } from 'mongoose'
 
-const petScheme = new Scheme({
+const petScheme = new Schema({
   name: {
     type: String,
     required: [true, 'Name is required'],
@@ -16,11 +16,11 @@ const petScheme = new Scheme({
   birthdate: String,
   race: String,
   vaccines: [{
-    type: Scheme.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Vaccine'
   }],
   owner: {
-    type: Scheme.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User'
   },
   died: {
@@ -29,7 +29,7 @@ const petScheme = new Scheme({
   },
   gender: {
     type: String,
-    enum: ['macho', 'hembra']
+    enum: ['male', 'female']
   }
 }, { timestamps: true })
 
