@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import userRoutes from './routes/user.routes.js'
+import petRoutes from './routes/pet.routes.js'
 
 const app = express()
 
@@ -11,5 +12,6 @@ app.use(cors({ origin: ['http://localhost:3000'], optionsSuccessStatus: 200 }))
 app.use(express.json())
 
 app.use('/api/user', userRoutes)
+app.use('/api/pet', petRoutes)
 
 export default app
