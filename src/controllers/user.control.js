@@ -8,7 +8,7 @@ export const getUser = async (req, res) => {
       })
     res.status(200).json(user)
   } catch (error) {
-    console.log(error)
+    console.log(error.message)
     res.sendStatus(406)
   }
 }
@@ -21,7 +21,6 @@ export const getUsers = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const user = await UserModel.findById(req.params.id)
-    console.log(user)
     if (user !== null) {
       await UserModel.findByIdAndUpdate(req.params.id, {
         name: req.body.name, photo: req.body.photo
