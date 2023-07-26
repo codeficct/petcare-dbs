@@ -7,7 +7,6 @@ dbConnect()
 export const GET = async (req, res) => {
   try {
     const id = req.url.split('user/')[1]
-    console.log(id)
     const user = await UserModel.findById(id)
       .populate({
         path: 'pets', select: 'name photo pet birthdate race died'
