@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "description": "Backend - Rest API for PetCare",
   "main": "src/index.js",
+  "engines": {
+    "node": "18.x"
+  },
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "Proyecto-32 Semilleros FICCT",
