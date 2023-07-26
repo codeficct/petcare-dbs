@@ -7,7 +7,9 @@ dbConnect()
 export const GET = async (req, res) => {
   try {
     const id = req.url.split('user/')[1]
-    const user = await UserModel.findById(id)
+    // check if is email
+    const isMail = id.includes('@')
+    const user = await UserModel.findOne({ [isMail ? 'email' : '_id']: id })
       .populate({
         path: 'pets', select: 'name photo pet birthdate race died'
       })

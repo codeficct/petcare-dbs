@@ -12,9 +12,9 @@ export const GET = async (req, res) => {
       .populate({
         path: 'owner', select: 'name photo email'
       })
-    // .populate({
-    //   path: 'vaccines', select: 'nameVaccine dateVaccine'
-    // })
+      .populate({
+        path: 'vaccines', select: 'nameVaccine dateVaccine'
+      })
     return NextResponse.json(pet, { status: 200 })
   } catch (error) {
     return NextResponse.json({ message: error }, { status: 406 })

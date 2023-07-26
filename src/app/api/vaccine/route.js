@@ -14,17 +14,24 @@ export const GET = async (req, res) => {
 export const POST = async (req, res) => {
   try {
     const body = await req.json()
+    const existPet = await PetModel.findById(body.pet)
+    const existVet = await UserModel.findById(body.veterinary)
+    if (!existPet) {
+      return NextResponse.json({ message: 'pet not found' }, { status: 404 })
+    }
+    if (!existVet) {
+      return NextResponse.json({ message: 'veterinary not found' }, { status: 404 })
+    }
     const newVaccine = new VaccineModel(body)
     await newVaccine.save()
     await PetModel.findByIdAndUpdate(body.pet, {
       $push: { vaccines: [newVaccine._id] }
     })
     await UserModel.findByIdAndUpdate(body.veterinary, {
-      $push: { pets: [req.body.pet] }
+      $push: { pets: [body.pet] }
     })
     return NextResponse.json({ message: 'vaccine created' }, { status: 201 })
   } catch (error) {
-    res.status(406)
-    return NextResponse.json({ message: error }, { status: 406 })
+    return NextResponse.json({ message: error.message }, { status: 406 })
   }
 }

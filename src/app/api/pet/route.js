@@ -15,6 +15,10 @@ export const GET = async (req, res) => {
 export const POST = async (req, res) => {
   try {
     const body = await req.json()
+    const existOwner = await UserModel.findById(body.owner)
+    if (!existOwner) {
+      return NextResponse.json({ message: 'owner not found' }, { status: 404 })
+    }
     const newPet = new PetModel(body)
     await newPet.save()
     await UserModel.findByIdAndUpdate(body.owner, {
