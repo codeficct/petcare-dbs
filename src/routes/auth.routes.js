@@ -13,14 +13,14 @@ const login = async (req, res) => {
         ...req.body
       })
       await newUser.save()
-      res.status(201).json({ message: 'User created' })
+      res.status(201).json({ message: 'sign up', data: newUser })
     } catch (error) {
       console.error(error)
       res.sendStatus(406)
     }
   } else {
     // login success
-    res.status(200).json(isUser)
+    res.status(200).json({ message: 'sign in', data: isUser })
   }
 }
 

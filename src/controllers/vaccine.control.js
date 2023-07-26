@@ -24,6 +24,14 @@ export const getAllVaccines = async (req, res) => {
 
 export const createVaccine = async (req, res) => {
   try {
+    const existPet = await PetModel.findById(req.body.pet)
+    const existVet = await UserModel.findById(req.body.veterinary)
+    if (!existPet) {
+      res.json({ message: 'pet not found' }, { status: 404 })
+    }
+    if (!existVet) {
+      res.json({ message: 'veterinary not found' }, { status: 404 })
+    }
     const newVaccine = new VaccineModel(req.body)
     await newVaccine.save()
     await PetModel.findByIdAndUpdate(req.body.pet, {

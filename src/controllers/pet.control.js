@@ -3,6 +3,10 @@ import UserModel from '../models/user.js'
 
 export const craetePet = async (req, res) => {
   try {
+    const existOwner = await UserModel.findById(req.body.owner)
+    if (!existOwner) {
+      res.json({ message: 'owner not found' }, { status: 404 })
+    }
     const newPet = new PetModel(req.body)
     await newPet.save()
     await UserModel.findByIdAndUpdate(req.body.owner, {
@@ -17,20 +21,14 @@ export const craetePet = async (req, res) => {
 
 export const getPet = async (req, res) => {
   try {
-    let pet
-    if (req.params.role === 'vet') {
-      pet = await PetModel.findById(req.params.id)
-        .populate({
-          path: 'owner', select: 'name photo email'
-        })
-        .populate({
-          path: 'vaccines', select: 'nameVaccine dateVaccine'
-        })
-    } else {
-      pet = await PetModel.findById(req.params.id).populate({
+    const pet = await PetModel.findById(req.params.id)
+      .populate({
+        path: 'owner', select: 'name photo email'
+      })
+      .populate({
         path: 'vaccines', select: 'nameVaccine dateVaccine'
       })
-    }
+
     res.status(200).json(pet)
   } catch (error) {
     console.log(error.message)
@@ -40,6 +38,9 @@ export const getPet = async (req, res) => {
 
 export const getAllPets = async (req, res) => {
   const pets = await PetModel.find({})
+    .populate({
+      path: 'owner', select: 'name photo email'
+    })
   res.status(200).json(pets)
 }
 

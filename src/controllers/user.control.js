@@ -2,7 +2,8 @@ import UserModel from '../models/user.js'
 
 export const getUser = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.params.id)
+    const isEmail = req.params.id.includes('@')
+    const user = await UserModel.findOne({ [isEmail ? 'email' : '_id']: req.params.id })
       .populate({
         path: 'pets', select: 'name photo pet birthdate race died'
       })
