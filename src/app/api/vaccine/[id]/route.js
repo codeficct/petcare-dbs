@@ -3,10 +3,10 @@ import VaccineModel from '@/db/models/vaccine'
 import PetModel from '@/db/models/pet'
 import { NextResponse } from 'next/server'
 
-dbConnect()
 
 export const GET = async (req, res) => {
   try {
+    await dbConnect()
     const id = req.url.split('vaccine/')[1]
     const vaccine = await VaccineModel.findById(id)
       .populate({
@@ -22,6 +22,7 @@ export const GET = async (req, res) => {
 
 export const PUT = async (req, res) => {
   try {
+    await dbConnect()
     const body = await req.json()
     const id = req.url.split('vaccine/')[1]
     const vaccine = await VaccineModel.findById(id)
@@ -40,6 +41,7 @@ export const PUT = async (req, res) => {
 
 export const DELETE = async (req, res) => {
   try {
+    await dbConnect()
     const id = req.url.split('vaccine/')[1]
     const vaccine = await VaccineModel.findById(id)
     const pet = await PetModel.findById(vaccine.pet)

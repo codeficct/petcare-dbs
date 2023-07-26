@@ -4,15 +4,16 @@ import PetModel from '@/db/models/pet'
 import UserModel from '@/db/models/user'
 import { NextResponse } from 'next/server'
 
-dbConnect()
 
 export const GET = async (req, res) => {
+  await dbConnect()
   const vaccines = await VaccineModel.find({})
   return NextResponse.json(vaccines, { status: 200 })
 }
 
 export const POST = async (req, res) => {
   try {
+    await dbConnect()
     const body = await req.json()
     const existPet = await PetModel.findById(body.pet)
     const existVet = await UserModel.findById(body.veterinary)

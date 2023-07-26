@@ -3,17 +3,22 @@ import PetModel from '@/db/models/pet'
 import UserModel from '@/db/models/user'
 import { NextResponse } from 'next/server'
 
-dbConnect()
 
-export const GET = async (req, res) => {
-  const pets = await PetModel.find({}).populate({
-    path: 'owner', select: 'name photo email'
-  })
-  return NextResponse.json(pets, { status: 200 })
+export const GET = async (req) => {
+  try {
+    await dbConnect()
+    const pets = await PetModel.find({}).populate({
+      path: 'owner', select: 'name photo email'
+    })
+    return NextResponse.json(pets, { status: 200 })
+  } catch (error) {
+    return NextResponse.json({ message: error }, { status: 406 })
+  }
 }
 
 export const POST = async (req, res) => {
   try {
+    await dbConnect()
     const body = await req.json()
     const existOwner = await UserModel.findById(body.owner)
     if (!existOwner) {

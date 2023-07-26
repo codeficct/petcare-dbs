@@ -3,10 +3,10 @@ import PetModel from '@/db/models/pet'
 import { dbConnect } from '@/db'
 import { NextResponse } from 'next/server'
 
-dbConnect()
 
 export const GET = async (req, res) => {
   try {
+    await dbConnect()
     const id = req.url.split('pet/')[1]
     const pet = await PetModel.findById(id)
       .populate({
@@ -23,6 +23,7 @@ export const GET = async (req, res) => {
 
 export const DELETE = async (req, res) => {
   try {
+    await dbConnect()
     const id = req.url.split('pet/')[1]
     const pet = await PetModel.findById(id)
     await UserModel.findByIdAndUpdate(pet.owner, {

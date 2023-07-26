@@ -2,10 +2,9 @@ import { dbConnect } from '@/db'
 import UserModel from '@/db/models/user'
 import { NextResponse } from 'next/server'
 
-dbConnect()
-
 export const GET = async (req, res) => {
   try {
+    await dbConnect()
     const id = req.url.split('user/')[1]
     // check if is email
     const isMail = id.includes('@')
@@ -21,6 +20,7 @@ export const GET = async (req, res) => {
 
 export const PUT = async (req, res) => {
   try {
+    await dbConnect()
     const id = req.url.split('user/')[1]
     const body = await req.json()
     const user = await UserModel.findById(id)
